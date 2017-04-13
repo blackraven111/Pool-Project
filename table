@@ -1,0 +1,295 @@
+			glBegin(GL_QUADS);
+			//нижняя часть стола
+			glNormal3f(0, 1, 0);
+			glVertex3f(0, 0, 0);
+			glNormal3f(0, 1, 0);
+			glVertex3f(genLength, 0, 0);
+			glNormal3f(0, 1, 0);
+			glVertex3f(genLength, 0, genWidth);
+			glNormal3f(0, 1, 0);
+			glVertex3f(0, 0, genWidth);
+			for (int i = 0; i < 2; i++) {
+				//боковые части стола по длине 
+				glNormal3f(0, 0, pow((GLfloat)-1, i + 1));
+				glVertex3f(0, 0, 0 + i * genWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i + 1));
+				glVertex3f(genLength, 0, 0 + i * genWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i + 1));
+				glVertex3f(genLength, genHeight, 0 + i * genWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i + 1));
+				glVertex3f(0, genHeight, 0 + i * genWidth);
+
+				//боковые части стола по ширине 
+				glNormal3f(pow((GLfloat)-1, i + 1), 0, 0);
+				glVertex3f(0 + i * genLength, 0, 0);
+				glNormal3f(pow((GLfloat)-1, i + 1), 0, 0);
+				glVertex3f(0 + i * genLength, genHeight, 0);
+				glNormal3f(pow((GLfloat)-1, i + 1), 0, 0);
+				glVertex3f(0 + i * genLength, genHeight, genWidth);
+				glNormal3f(pow((GLfloat)-1, i + 1), 0, 0);
+				glVertex3f(0 + i * genLength, 0, genWidth);
+
+				//верх бортика без лунки по длине 
+				glNormal3f(0, 1, 0);
+				glVertex3f(edgeWidth + holeRadius, genHeight, 0 + i * (edgeWidth + tableWidth));
+				glNormal3f(0, 1, 0);
+				glVertex3f(genLength - edgeWidth - holeRadius, genHeight, 0 + i * (edgeWidth + tableWidth));
+				glNormal3f(0, 1, 0);
+				glVertex3f(genLength - edgeWidth - holeRadius, genHeight, edgeWidth + i * (edgeWidth + tableWidth));
+				glNormal3f(0, 1, 0);
+				glVertex3f(edgeWidth + holeRadius, genHeight, edgeWidth + i * (edgeWidth + tableWidth));
+
+				//верх бортика без лунки по ширине 
+				/*glNormal3f(0, 1, 0);
+				glVertex3f(0 + i * (edgeWidth + tableLength), genHeight, edgeWidth + holeRadius);
+				glNormal3f(0, 1, 0);
+				glVertex3f(edgeWidth + i * (edgeWidth + tableLength), genHeight, edgeWidth + holeRadius);
+				glNormal3f(0, 1, 0);
+				glVertex3f(edgeWidth + i * (edgeWidth + tableLength), genHeight, genWidth - edgeWidth - holeRadius);
+				glNormal3f(0, 1, 0);
+				glVertex3f(0 + i * (edgeWidth + tableLength), genHeight, genWidth - edgeWidth - holeRadius);*/
+
+				//боковые части бортика без лунки по длине
+				glNormal3f(0, 0, pow((GLfloat)-1, i));
+				glVertex3f(edgeWidth + holeRadius, genHeight, edgeWidth + i * tableWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i));
+				glVertex3f(genLength - edgeWidth - holeRadius, genHeight, edgeWidth + i * tableWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i));
+				glVertex3f(genLength - edgeWidth - holeRadius, tableHeight, edgeWidth + i * tableWidth);
+				glNormal3f(0, 0, pow((GLfloat)-1, i));
+				glVertex3f(edgeWidth + holeRadius, tableHeight, edgeWidth + i * tableWidth);
+
+				//боковые части бортика без лунки по ширине
+				glNormal3f(pow((GLfloat)-1, i), 0, 0);
+				glVertex3f(edgeWidth + i * tableLength, genHeight, edgeWidth + holeRadius);
+				glNormal3f(pow((GLfloat)-1, i), 0, 0);
+				glVertex3f(edgeWidth + i * tableLength, tableHeight, edgeWidth + holeRadius);
+				glNormal3f(pow((GLfloat)-1, i), 0, 0);
+				glVertex3f(edgeWidth + i * tableLength, tableHeight, genWidth - edgeWidth - holeRadius);
+				glNormal3f(pow((GLfloat)-1, i), 0, 0);
+				glVertex3f(edgeWidth + i * tableLength, genHeight, genWidth - edgeWidth - holeRadius);
+
+				//микроскопические части бортика по ширине между лузой и краем
+				glNormal3f(0, 1, 0);
+				glVertex3f(0 + i * (genLength - epsilon), genHeight, 0);
+				glNormal3f(0, 1, 0);
+				glVertex3f(epsilon + i * (genLength - epsilon), genHeight, 0);
+				glNormal3f(0, 1, 0);
+				glVertex3f(epsilon + i * (genLength - epsilon), genHeight, genWidth);
+				glNormal3f(0, 1, 0);
+				glVertex3f(0 + i * (genLength - epsilon), genHeight, genWidth);
+			}
+
+			//цикл для всех луз и ножек
+			for (GLfloat i = 0; i < n; i++) {
+				GLfloat a = 2 * M_PI * i / n;
+				GLfloat b = 2 * M_PI * (i + 1) / n;
+				//луза #1
+				glNormal3f(-cos(a), 0, -sin(a));
+				glVertex3f(edgeWidth + holeRadius * sin(a), 0, edgeWidth + holeRadius * cos(a));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				glVertex3f(edgeWidth + holeRadius * sin(b), 0, edgeWidth + holeRadius * cos(b));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				if (a >= 0 && a <= (M_PI / 2)) {
+					glVertex3f(edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + holeRadius * cos(a));
+
+					// стол между лузами #1 и #2
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + holeRadius * cos(a));
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * cos(a + 3 * M_PI / 2), tableHeight, edgeWidth + tableWidth + holeRadius * sin(a + 3 * M_PI / 2));
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * cos(b + 3 * M_PI / 2), tableHeight, edgeWidth + tableWidth + holeRadius * sin(b + 3 * M_PI / 2));
+				}
+				else {
+					glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + holeRadius * cos(a));
+
+					//бортик между лузами #1 и #2
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(0, 1, 0);
+					glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + holeRadius * cos(a));
+					if (a < (3 * M_PI / 2)) {
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, 0);
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, 0);
+					}
+					else {
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * cos(a + 3 * M_PI / 2), genHeight, edgeWidth + tableWidth + holeRadius * sin(a + 3 * M_PI / 2));
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * cos(b + 3 * M_PI / 2), genHeight, edgeWidth + tableWidth + holeRadius * sin(b + 3 * M_PI / 2));
+					}
+
+				}
+				//луза #2
+				glNormal3f(-cos(a), 0, -sin(a));
+				glVertex3f(edgeWidth + holeRadius * sin(a), 0, edgeWidth + tableWidth + holeRadius * cos(a));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				glVertex3f(edgeWidth + holeRadius * sin(b), 0, edgeWidth + tableWidth + holeRadius * cos(b));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				if (a >= (M_PI / 2) && a <= M_PI) {
+					glVertex3f(edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+				}
+				else {
+					glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+
+					//кусочек бортика около лузы #2
+					if ((a >= 0 && a < (M_PI / 2)) || a >= (3 * M_PI / 2)) {
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(a), genHeight, genWidth);
+						glNormal3f(0, 1, 0);
+						glVertex3f(edgeWidth + holeRadius * sin(b), genHeight, genWidth);
+					}
+				}
+				//луза #3
+				glNormal3f(-cos(a), 0, -sin(a));
+				glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), 0, edgeWidth + holeRadius * cos(a));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), 0, edgeWidth + holeRadius * cos(b));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				if (a >= (3 * M_PI / 2) && a <= (2 *  M_PI)) {
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + holeRadius * cos(a));
+
+					// стол между лузами #3 и #4
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + holeRadius * cos(a));
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * cos(a + 3 * M_PI / 2), tableHeight, edgeWidth + tableWidth + holeRadius * sin(a + 3 * M_PI / 2));
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * cos(b + 3 * M_PI / 2), tableHeight, edgeWidth + tableWidth + holeRadius * sin(b + 3 * M_PI / 2));
+				}
+				else {
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + holeRadius * cos(a));
+
+					//бортик между лузами #3 и #4
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + holeRadius * cos(b));
+					glNormal3f(0, 1, 0);
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + holeRadius * cos(a));
+					if (a > (M_PI / 2) && a < (3 * M_PI / 2)) {
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, 0);
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, 0);
+					}
+					else {
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * cos(a + 3 * M_PI / 2), genHeight, edgeWidth + tableWidth + holeRadius * sin(a + 3 * M_PI / 2));
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * cos(b + 3 * M_PI / 2), genHeight, edgeWidth + tableWidth + holeRadius * sin(b + 3 * M_PI / 2));
+					}
+
+				}
+				//луза #4
+				glNormal3f(-cos(a), 0, -sin(a));
+				glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), 0, edgeWidth + tableWidth + holeRadius * cos(a));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), 0, edgeWidth + tableWidth + holeRadius * cos(b));
+
+				glNormal3f(-sin(b), 0, -cos(b));
+				if (a >= M_PI && a <= (3 * M_PI / 2)) {
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), tableHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), tableHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+				}
+				else {
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+					glNormal3f(-sin(a), 0, -cos(a));
+					glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+
+					//кусочек бортика около лузы #4
+					if (a > (3 * M_PI / 2) || a < (M_PI / 2)) {
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, edgeWidth + tableWidth + holeRadius * cos(b));
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, edgeWidth + tableWidth + holeRadius * cos(a));
+
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(a), genHeight, genWidth);
+						glNormal3f(0, 1, 0);
+						glVertex3f(tableLength + edgeWidth + holeRadius * sin(b), genHeight, genWidth);
+					}
+				}
+				//ножка #1
+				glNormal3f(cos(a), 0, sin(a));
+				glVertex3f(edgeWidth + 0.5 * legRadius * sin(a), -legHeight, edgeWidth + 0.5 * legRadius * cos(a));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(edgeWidth + 0.5 * legRadius * sin(b), -legHeight, edgeWidth + 0.5 * legRadius * cos(b));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(edgeWidth + legRadius * sin(b), 0, edgeWidth + legRadius * cos(b));
+
+				glNormal3f(sin(a), 0, cos(a));
+				glVertex3f(edgeWidth + legRadius * sin(a), 0, edgeWidth + legRadius * cos(a));
+
+				//ножка #2
+				glNormal3f(cos(a), 0, sin(a));
+				glVertex3f(edgeWidth + 0.5 * legRadius * sin(a), -legHeight, edgeWidth + tableWidth + 0.5 * legRadius * cos(a));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(edgeWidth + 0.5 * legRadius * sin(b), -legHeight, edgeWidth + tableWidth + 0.5 * legRadius * cos(b));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(edgeWidth + legRadius * sin(b), 0, edgeWidth + tableWidth + legRadius * cos(b));
+
+				glNormal3f(sin(a), 0, cos(a));
+				glVertex3f(edgeWidth + legRadius * sin(a), 0, edgeWidth + tableWidth + legRadius * cos(a));
+
+				//ножка #3
+				glNormal3f(cos(a), 0, sin(a));
+				glVertex3f(tableLength + edgeWidth + 0.5 * legRadius * sin(a), -legHeight, edgeWidth + 0.5 * legRadius * cos(a));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(tableLength + edgeWidth + 0.5 * legRadius * sin(b), -legHeight, edgeWidth + 0.5 * legRadius * cos(b));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(tableLength + edgeWidth + legRadius * sin(b), 0, edgeWidth + legRadius * cos(b));
+
+				glNormal3f(sin(a), 0, cos(a));
+				glVertex3f(tableLength + edgeWidth + legRadius * sin(a), 0, edgeWidth + legRadius * cos(a));
+
+				//ножка #4
+				glNormal3f(cos(a), 0, sin(a));
+				glVertex3f(tableLength + edgeWidth + 0.5 * legRadius * sin(a), -legHeight, edgeWidth + tableWidth + 0.5 * legRadius * cos(a));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(tableLength + edgeWidth + 0.5 * legRadius * sin(b), -legHeight, edgeWidth + tableWidth + 0.5 * legRadius * cos(b));
+
+				glNormal3f(sin(b), 0, cos(b));
+				glVertex3f(tableLength + edgeWidth + legRadius * sin(b), 0, edgeWidth + tableWidth + legRadius * cos(b));
+
+				glNormal3f(sin(a), 0, cos(a));
+				glVertex3f(tableLength + edgeWidth + legRadius * sin(a), 0, edgeWidth + tableWidth + legRadius * cos(a));
+			}
+			glEnd();
