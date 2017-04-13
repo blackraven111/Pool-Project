@@ -8,7 +8,7 @@ const GLfloat legRadius = 0.5 * holeRadius; // Радиус ножки
 
 сonst GLfloat tableHeight = 3 * ballRadius; // Высота поля          
 const GLfloat legHeight = 3.5 * tableHeight; // Высота ножки        
-const GLfloat edgeHeight = 0.7; // Высота бортика     
+const GLfloat edgeHeight = ballRadius; // Высота бортика     
 const GLfloat genHeight = tableHeight + edgeHeight; // Общая высота стола      
 
 const GLfloat edgeWidth = ballRadius + 2 * epsilon; // Ширина бортика   
