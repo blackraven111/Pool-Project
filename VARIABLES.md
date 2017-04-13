@@ -1,8 +1,8 @@
 **ОПИСАНИЕ ПЕРЕМЕННЫХ**
 
 const GLint n = 100; // Число итераций для сфер и окружностей
+const GLfloat epsilon = 0.15; // Отступ 
 const GLfloat ballRadius = 1; // Радиус шара  
-const GLfloat epsilon = 0.15; // Отступ
 const GLfloat holeRadius = ballRadius + epsilon; // Радиус лузы  
 const GLfloat legRadius = 0.5 * holeRadius; // Радиус ножки  
 
