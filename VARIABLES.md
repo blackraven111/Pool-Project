@@ -1,6 +1,6 @@
 **ОПИСАНИЕ ПЕРЕМЕННЫХ**
 
-const GLint n = 100; // Число итераций для сфер и окружностей
+const GLint n = 100; // Число итераций для сфер и окружностей 
 const GLfloat epsilon = 0.15; // Отступ 
 const GLfloat ballRadius = 1; // Радиус шара  
 const GLfloat holeRadius = ballRadius + epsilon; // Радиус лузы  
