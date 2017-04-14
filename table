@@ -292,4 +292,4 @@
 				glNormal3f(sin(a), 0, cos(a));
 				glVertex3f(tableLength + edgeWidth + legRadius * sin(a), 0, edgeWidth + tableWidth + legRadius * cos(a));
 			}
-			glEnd();
+			glEnd(); 
